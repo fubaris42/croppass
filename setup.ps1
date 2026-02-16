@@ -40,7 +40,7 @@ if (!(Get-Command python -ErrorAction SilentlyContinue)) {
     Remove-Item "$env:TEMP\py_inst.exe"
     
     # Refresh PATH environment
-    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 }
 
 # 2. SELF-HEALING: Fix PIP if missing
@@ -48,7 +48,8 @@ Write-Host "[2/5] Verifying PIP installation..." -ForegroundColor Cyan
 try {
     $pipTest = python -m pip --version 2>$null
     if (!$pipTest) { throw "Pip Missing" }
-} catch {
+}
+catch {
     Write-Host "WARNING: PIP is missing. Bootstrapping now..." -ForegroundColor Yellow
     python -m ensurepip --default-pip
     if (!(python -m pip --version 2>$null)) {
@@ -62,7 +63,7 @@ try {
 # 3. Install Libraries
 Write-Host "[3/5] Installing Libraries..." -ForegroundColor Cyan
 python -m pip install --upgrade pip
-python -m pip install deepface tf-keras opencv-python Pillow PyQt6 retina-face
+python -m pip install deepface tf-keras opencv-python Pillow PyQt6 retina-face numpy
 
 # 4. Download Model
 if (!(Test-Path $WeightsDir)) { New-Item -Path $WeightsDir -ItemType Directory -Force }
