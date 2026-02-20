@@ -80,7 +80,8 @@ $StartMenuLoc = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs"
 
 foreach ($Loc in @($DesktopLoc, $StartMenuLoc)) {
     $Shortcut = $WScriptShell.CreateShortcut("$Loc\$AppName.lnk")
-    $PythonW = (Get-Command pythonw).Source
+    # $PythonW = (Get-Command pythonw).Source
+    $PythonW = (Get-Command python).Source
     $Shortcut.TargetPath = $PythonW
     $Shortcut.Arguments = "`"$AppPath`""
     $Shortcut.WorkingDirectory = "$InstallDir"
